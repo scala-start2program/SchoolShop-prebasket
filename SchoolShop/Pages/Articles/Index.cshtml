@@ -76,14 +76,12 @@
         &gt;&gt;
     </button>
 
-
-
     <hr />
     <div class="row">
         @foreach (var item in Model.Article)
         {
             string imagePath = "~/images/" + (item.ImagePath ?? "noimage.jpg");
-
+            string roundScore = item.Score.ToString("0");
             <div class="col-6 col-lg-4 p-3">
                 <div class="card">
                     <div class="card-header">
@@ -98,7 +96,17 @@
                         <div class="card-body text-left" style="min-height:400px;">
                             <h5>Merk : @Html.DisplayFor(modelItem => item.Brand.BrandName)</h5>
                             <h5>Prijs : @Html.DisplayFor(modelItem => item.Price)</h5>
-                            <h5>Score : @Html.DisplayFor(modelItem => item.Score)</h5>
+                            <h5>
+                                Score :
+                                @for (int i = 0; i < Int32.Parse(roundScore); i++)
+                                {
+                                    <i class="fas fa-star" style="color:gold;"></i>
+                                }
+                                @for (int i = Int32.Parse(roundScore); i < 5; i++)
+                                {
+                                    <i class="far fa-star" style="color:gold;"></i>
+                                }
+                            </h5>
                             <hr />
                             <div class="text-center">
                                 <img class="imageThumbnail" src="@imagePath" asp-append-version="true" />
