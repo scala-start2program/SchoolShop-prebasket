@@ -1,0 +1,52 @@
+﻿@page
+@model SchoolShop.Pages.Brands.CreateModel
+
+@{
+    ViewData["Title"] = "Een nieuw merk";
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+
+
+<h1>Een nieuw merk toevoegen</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Brand.BrandName" class="control-label"></label>
+                <input asp-for="Brand.BrandName" class="form-control" />
+                <span asp-validation-for="Brand.BrandName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="btn-group">
+                    <button type="submit" class="btn  btn-success" title="Opslaan">
+                        <i class="far fa-save"></i>
+                    </button>
+                    <a asp-page="Index" class="btn btn-danger" title="Annuleren">
+                        <i class="fas fa-undo-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

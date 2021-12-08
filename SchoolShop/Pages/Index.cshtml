@@ -1,0 +1,38 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+
+<div class="text-center">
+    <h1 class="display-3">Little School Shop</h1>
+    <h1 class="display-4">Welkom</h1>
+    <img class="img-fluid rounded" src="~/images/schoolshop.jpg" />
+</div>
+<p></p>
+<div class="card">
+    <div class="card-header">
+        <h5>Contactgegevens</h5>
+    </div>
+    <div class="card-body">
+        <p>Adres : Schoolstraat 1, 8000 Brugge</p>
+        <p>Telefoon : 0497/66.77.88</p>
+        <p>E-mail : info@littleschoolshop.be</p>
+    </div>
+</div>
+

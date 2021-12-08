@@ -1,0 +1,46 @@
+﻿@page
+@model SchoolShop.Pages.Brands.DetailsModel
+
+@{
+    ViewData["Title"] = "Details merk";
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+
+
+<h1>Detailgegevens merk</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Brand.BrandName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Brand.BrandName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <div class="btn-group">
+        <a asp-page="./Edit" asp-route-id="@Model.Brand.Id" class="btn  btn-warning" title="Wijzigen">
+            <i class="fas fa-pencil-alt"></i>
+        </a>
+        <a asp-page="./Index" class="btn btn-success" title="Terug naar overzicht">
+            <i class="fas fa-undo-alt"></i>
+        </a>
+    </div>
+</div>

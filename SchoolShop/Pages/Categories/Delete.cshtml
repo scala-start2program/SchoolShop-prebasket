@@ -1,0 +1,51 @@
+﻿@page
+@model SchoolShop.Pages.Categories.DeleteModel
+
+@{
+    ViewData["Title"] = "Categorie verwijderen";
+    string ImagePath = "~/images/" + (Model.Category.ImagePath ?? "noimage.jpg");
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+
+
+<h1>Een categorie verwijderen</h1>
+<h3>Ben je zeker dat deze categorie mag verwijderd worden?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+    </dl>
+    <div class="form-group row col-sm-4">
+        <img class="imageThumbnail" src="@ImagePath" asp-append-version="true" />
+    </div>
+    <form method="post">
+        <input type="hidden" asp-for="Category.Id" />
+        <div class="btn-group">
+            <button type="submit" class="btn  btn-danger" title="Wissen">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <a asp-page="./Index" class="btn btn-success" title="Annuleren">
+                <i class="fas fa-undo-alt"></i>
+            </a>
+        </div>
+    </form>
+</div>

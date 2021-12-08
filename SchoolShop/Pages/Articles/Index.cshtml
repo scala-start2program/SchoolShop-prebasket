@@ -1,0 +1,122 @@
+﻿@page
+@model SchoolShop.Pages.Articles.IndexModel
+
+@{
+    ViewData["Title"] = "Alle artikels";
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+<form method="post">
+
+    <h1>Ons aanbod</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <p>Filter merken : </p>
+            <select name="brandFilter" class="form-control"
+                    asp-for="SelectedBrandId"
+                    asp-items="Model.AvailableBrands" onchange="this.form.submit()"></select>
+        </div>
+        <div class="col-md-4">
+            <p>Filter categorieën : </p>
+            <select name="categoryFilter" class="form-control"
+                    asp-for="SelectedCategoryId"
+                    asp-items="Model.AvailableCategories" onchange="this.form.submit()"></select>
+        </div>
+    </div>
+
+    <p style="margin-top:10px;">
+        <a style="@Model.Availability.ConfigButtonStyle" asp-page="Create" class="btn btn-primary"><i class="fa fa-plus"></i> Nieuw artikel</a>
+    </p>
+    <hr />
+    <button type="submit" class="btn btn-light"
+            formaction="?pageIndex=@(Model.Pagination.FirstPageIndex)">
+        &lt;&lt;
+    </button>
+    <button type="submit" class="btn btn-light"
+            formaction="?pageIndex=@(Model.Pagination.PreviousPageIndex)">
+        &lt;
+    </button>
+
+    @foreach (int item in Model.Pagination.PageIndexes)
+    {
+        if (item == Model.Pagination.PageIndex)
+        {
+            <button type="submit" class="btn btn-primary"
+                    formaction="?pageIndex=@item">
+                @((item + 1).ToString())
+            </button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-light"
+                    formaction="?pageIndex=@item">
+                @((item + 1).ToString())
+            </button>
+        }
+    }
+    <button type="submit" class="btn btn-light"
+            formaction="?pageIndex=@(Model.Pagination.NextPageIndex)">
+        &gt;
+    </button>
+    <button type="submit" class="btn btn-light"
+            formaction="?pageIndex=@(Model.Pagination.LastPageIndex)">
+        &gt;&gt;
+    </button>
+
+
+
+    <hr />
+    <div class="row">
+        @foreach (var item in Model.Article)
+        {
+            string imagePath = "~/images/" + (item.ImagePath ?? "noimage.jpg");
+
+            <div class="col-6 col-lg-4 p-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="longtext">@Html.DisplayFor(modelItem => item.ArticleName)</h3>
+                        <h4>@Html.DisplayFor(modelItem => item.Category.CategoryName)</h4>
+                    </div>
+                    <a asp-page="./Details"
+                       asp-route-id="@item.Id"
+                       asp-route-categoryid="@Model.SelectedCategoryId"
+                       asp-route-brandid="@Model.SelectedBrandId"
+                       class="btn">
+                        <div class="card-body text-left" style="min-height:400px;">
+                            <h5>Merk : @Html.DisplayFor(modelItem => item.Brand.BrandName)</h5>
+                            <h5>Prijs : @Html.DisplayFor(modelItem => item.Price)</h5>
+                            <h5>Score : @Html.DisplayFor(modelItem => item.Score)</h5>
+                            <hr />
+                            <div class="text-center">
+                                <img class="imageThumbnail" src="@imagePath" asp-append-version="true" />
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        <div class="btn-group btn-group-sm  float-right">
+                            <a style="@Model.Availability.ConfigButtonStyle" asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning" title="Wijzig"><i class="fas fa-pencil-alt"></i></a>
+                            <a style="@Model.Availability.ConfigButtonStyle" asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Wissen"><i class="fas fa-trash-alt"></i></a>
+                            <a asp-page="./Basket" asp-route-id="@item.Id" class="btn btn-sm btn-success" title="Toevoegen aan winkelmandje"><i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
+
+</form>

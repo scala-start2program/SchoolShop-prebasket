@@ -1,0 +1,45 @@
+﻿@page
+@model SchoolShop.Pages.Categories.FilterModel
+@{
+    ViewData["Title"] = "Alle artikels";
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+
+<h1>Categorieën</h1>
+<div class="row">
+    @foreach (var item in Model.Categories)
+    {
+        string imagePath = "~/images/" + (item.ImagePath ?? "noimage.jpg");
+
+        <div class="col-6 col-lg-4 p-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Html.DisplayFor(modelItem => item.CategoryName)</h3>
+                </div>
+                <a asp-page="../Articles/Index"   asp-route-categoryFilter="@item.Id" class="btn">
+                    <div class="card-body" style="min-height:300px;">
+                        <div class="text-center">
+                            <img class="imageThumbnail" src="@imagePath" asp-append-version="true" />
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    }
+</div>
+

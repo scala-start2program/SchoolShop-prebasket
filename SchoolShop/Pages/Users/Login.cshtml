@@ -1,0 +1,47 @@
+﻿@page
+@model SchoolShop.Pages.Users.LoginModel
+@{
+    ViewData["Title"] = "Inloggen";
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+<h1>Login</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">E-mail adres</label>
+                <input asp-for="@Model.Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Paswoord</label>
+                <input type="password" asp-for="@Model.Password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+        <p>
+            <a class="btn btn-success" asp-page="/Users/Register">
+                Nog geen account?  Registreer je dan snel ...
+            </a>
+        </p>
+    </div>
+</div>
+

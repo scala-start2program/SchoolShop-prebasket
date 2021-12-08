@@ -1,0 +1,47 @@
+﻿@page
+@model SchoolShop.Pages.Categories.DetailsModel
+
+@{
+    ViewData["Title"] = "Details category";
+    string ImagePath = "~/images/" + (Model.Category.ImagePath ?? "noimage.jpg");
+    ViewData["Email"] = "";
+    ViewData["Loginstyle"] = "visibility: visible; ";
+    ViewData["Logoutstyle"] = "visibility: hidden; ";
+    ViewData["Configstyle"] = "visibility: hidden; ";
+    if (!string.IsNullOrEmpty(Model.Availability.Email))
+    {
+        ViewData["Email"] = Model.Availability.Email;
+        ViewData["BasketCount"] = Model.Availability.BasketCount;
+        ViewData["Loginstyle"] = "visibility: hidden; ";
+        ViewData["Logoutstyle"] = "visibility: visible; ";
+        if (Model.Availability.IsAdmin)
+        {
+            ViewData["Configstyle"] = "visibility: visible; ";
+        }
+    }
+}
+
+<h1>Details categorie</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+    </dl>
+    <div class="form-group row col-sm-4">
+        <img class="imageThumbnail" src="@ImagePath" asp-append-version="true" />
+    </div>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Category.Id" class="btn  btn-warning" title="Wijzigen">
+        <i class="fas fa-pencil-alt"></i>
+    </a>
+    <a asp-page="./Index" class="btn btn-success" title="Terug naar overzicht">
+        <i class="fas fa-undo-alt"></i>
+    </a>
+</div>
